@@ -1,0 +1,16 @@
+/*
+* BSUIR, Department of Electronics. 2015
+* Developed by Kiskin
+*
+*//* 
+    Created on : Mar 25, 2015, 12:21:28 AM
+    Author     : Kiskin
+*/
+
+.tool-bar .button{
+	-fx-padding: 8px 16px;
+}
+
+#tbBtnOpen{
+	-fx-background-image: url("../../icons/Icon.png");
+}

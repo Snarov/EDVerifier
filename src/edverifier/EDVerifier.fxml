@@ -1,0 +1,74 @@
+<!--/*
+* EDVerifier
+* BSUIR, Department of Electronics. 2015
+* Developed by Kiskin
+*
+*/-->
+
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import java.net.URL?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- GUI uses recource bundles for localization purposes. Locale-specific values stored in "bundles/" directory and named like "locale_ru_RU.properties" or 
+"locale_en.properties" for example.-->
+
+<VBox id="vbox" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edverifier.EDVerifierController">
+	<!--Usual menubar which providing usual operations for user-->
+	<MenuBar>
+		<!--Resource names for menu items text is given in form "menuName-menuItemName"-->
+		<menus>
+			<Menu text="%file-menu">
+				<MenuItem text="%file-new"/>
+				<MenuItem text="%file-open"/>
+				<MenuItem text="%file-saveAs" disable="true"/>
+				<MenuItem text="%file-save" disable="true"/>
+				<SeparatorMenuItem  />
+				<MenuItem text="%file-exit"/>
+			</Menu>
+			<Menu text="%edit-menu">
+				<items>
+					<MenuItem text="%edit-editTable"/>
+				</items>
+			</Menu>
+			<Menu text="%view-menu">
+				<MenuItem text="%view-plotSettings"/>
+				<MenuItem text="%view-valuesAccuracy"/>
+				<SeparatorMenuItem  />
+				<CheckMenuItem text="%view-showInput" selected="true"/>
+				<CheckMenuItem text="%view-showOutput" selected="true"/>
+				<SeparatorMenuItem  />
+				<MenuItem text="%view-theme"/>
+			</Menu>
+			<Menu text="%tools-menu">
+				<Menu text="%tools-selectCircuitMenu">
+					<fx:define>
+						<ToggleGroup fx:id="selectCircuitGroup"/>
+					</fx:define>
+					<RadioMenuItem text="%tools-selectCircuitMenu-commonEmitter" toggleGroup="$selectCircuitGroup" selected="true"/>
+					<RadioMenuItem text="%tools-selectCircuitMenu-commonCollector" toggleGroup="$selectCircuitGroup"/>
+					<RadioMenuItem text="%tools-selectCircuitMenu-commonBase" toggleGroup="$selectCircuitGroup"/>
+				</Menu>
+			</Menu>
+			<Menu text="%language-menu">
+				
+			</Menu>
+			<Menu text="%about-menu">
+				
+			</Menu>
+		</menus>
+	</MenuBar>
+	<ToolBar orientation="HORIZONTAL">
+		<Button fx:id="tbBtnOpen"/>
+		<Button fx:id="tbBtnSaveAs"/>
+		<Button fx:id="tbBtnSave"/>
+	</ToolBar> 
+	
+	<stylesheets>
+		<URL value="@../styles/default/default.css"/>
+	</stylesheets>
+</VBox>
