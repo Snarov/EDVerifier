@@ -7,10 +7,8 @@
     Author     : Kiskin
 */
 
-.tool-bar .button{
-	-fx-padding: 8px 16px;
-}
+
 
 #tbBtnOpen{
-	-fx-background-image: url("../../icons/Icon.png");
+	/*-fx-graphic: url("icons/Icon.jpg");*/
 }

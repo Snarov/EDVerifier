@@ -3,7 +3,7 @@
  * Developed by Kiskin
  *
  */
-package edverifier;
+package edverifier.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;

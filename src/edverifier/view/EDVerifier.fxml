@@ -62,10 +62,25 @@
 			</Menu>
 		</menus>
 	</MenuBar>
+	<!--Toolbar buttons names is given in form "tbBtnButtonName"-->
 	<ToolBar orientation="HORIZONTAL">
+		<Button fx:id="tbBtnNew"/>
 		<Button fx:id="tbBtnOpen"/>
 		<Button fx:id="tbBtnSaveAs"/>
 		<Button fx:id="tbBtnSave"/>
+		<Separator/>
+		<Button fx:id="tbBtnEditTable"/>
+		<Separator/>
+		<ToggleButton fx:id="tbBtnShowInput"/>
+		<ToggleButton fx:id="tbBtnShowOutput"/>
+		<Separator/>
+		<fx:define>
+			<ToggleGroup fx:id="tbBtnSelectCircuitGroup"/>
+		</fx:define>
+		<RadioButton fx:id="tbBtnCommonEmitter" toggleGroup="$tbBtnSelectCircuitGroup"/>
+		<RadioButton fx:id="tbBtnCommonCollector" toggleGroup="$tbBtnSelectCircuitGroup"/>
+		<RadioButton fx:id="tbBtnCommonBase" toggleGroup="$tbBtnSelectCircuitGroup"/>
+		
 	</ToolBar> 
 	
 	<stylesheets>
