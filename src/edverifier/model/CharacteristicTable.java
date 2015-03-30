@@ -8,7 +8,7 @@ package edverifier.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.fxml.LoadException;
-import static edverifier.EDVerifier.resources;
+import static edverifier.EDVerifier.app;
 
 /**
  * Class that contains information about measurement performed in the circuit. Characteristic table is the table of values ​​of
@@ -29,14 +29,14 @@ public class CharacteristicTable {
 	private final static HashMap<String, String> iPatterns = new HashMap<String, String>(2) {
 		{
 			put("ArgColHead", "^\\s*[Ii][а-я]{0,2}$");
-			put("ValColHead", "\\s*[Uu][а-я|a-z]{0,2}\\s*\\(\\s*[Uu][а-я|a-z]{0,2}\\s*=\\s*\\d*[\\.,]\\d+\\s*\\)$");
+			put("ValColHead", "^\\s*[Uu][а-я|a-z]{0,2}\\s*\\(\\s*[Uu][а-я|a-z]{0,2}\\s*=\\s*\\d*[\\.,]\\d+\\s*\\)$");
 		}
 	};
 
 	private final static HashMap<String, String> oPatterns = new HashMap<String, String>(2) {
 		{
 			put("ArgColHead", "^\\s*[Uu][а-я]{0,2}$");
-			put("ValColHead", "\\s*[Ii][а-я|a-z]{0,2}\\s*\\(\\s*[Ii][а-я|a-z]{0,2}\\s*=\\s*\\d*[\\.,]\\d+\\s*\\)$");
+			put("ValColHead", "^\\s*[Ii][а-я|a-z]{0,2}\\s*\\(\\s*[Ii][а-я|a-z]{0,2}\\s*=\\s*\\d*[\\.,]\\d+\\s*\\)$");
 		}
 	};
 
@@ -58,6 +58,11 @@ public class CharacteristicTable {
 	 * @throws LoadException if error occurred while constructing
 	 */
 	public CharacteristicTable(String[][] rawTable) throws LoadException {
+
+		if (rawTable == null) {
+			tableType = null;
+			return;
+		}
 		tableType = determineType(rawTable[0]);
 
 //		construct arguments
@@ -65,22 +70,22 @@ public class CharacteristicTable {
 			if (rawTable[rowNum][0].matches(REAL_DEC_PATTERN)) {
 				arguments.add(Double.valueOf(rawTable[rowNum][0]));
 			} else {
-				throw new LoadException(resources.getString("wrongArgValueExc") + rowNum);
+				throw new LoadException(app.getResources().getString("wrongArgValueExc") + rowNum);
 			}
 		}
 //		construct fTables
 		for (int colNum = 1; colNum < rawTable[0].length; colNum++) {
 			HashMap<Double, Double> fTable = new HashMap<>();
-			
+
 			for (int rowNum = 1; rowNum < rawTable.length; rowNum++) {
 				if (rawTable[rowNum][colNum].matches(REAL_DEC_PATTERN)) {
 					fTable.put(arguments.get(rowNum - 1), Double.valueOf(rawTable[rowNum][colNum]));
 				} else {
-					throw new LoadException(String.format(resources.getString("wrongFuncValueExc"), rowNum, colNum + 1));
+					throw new LoadException(String.format(app.getResources().getString("wrongFuncValueExc"), rowNum, colNum + 1));
 				}
 			}
-			
-			Double constVal = new Double(rawTable[0][colNum].replaceAll(NOT_NUM_SYMB_PATTERN , ""));
+
+			Double constVal = new Double(rawTable[0][colNum].replaceAll(NOT_NUM_SYMB_PATTERN, ""));
 			fTables.put(constVal, fTable);
 		}
 	}
@@ -95,7 +100,7 @@ public class CharacteristicTable {
 		if (header[0].matches(iPatterns.get("ArgColHead"))) {
 			for (int colNum = 1; colNum < header.length; colNum++) {
 				if (!header[colNum].matches(iPatterns.get("ValColHead"))) {
-					throw new LoadException(resources.getString("wrongTableHeaderExc"));
+					throw new LoadException(app.getResources().getString("wrongTableHeaderExc"));
 				}
 			}
 			return TableType.INPUT;
@@ -104,16 +109,16 @@ public class CharacteristicTable {
 		if (header[0].matches(oPatterns.get("ArgColHead"))) {
 			for (int colNum = 1; colNum < header.length; colNum++) {
 				if (!header[colNum].matches(oPatterns.get("ValColHead"))) {
-					throw new LoadException(resources.getString("wrongTableHeaderExc"));
+					throw new LoadException(app.getResources().getString("wrongTableHeaderExc"));
 				}
 			}
 			return TableType.OUTPUT;
 		}
 
-		throw new LoadException(resources.getString("wrongTableHeaderExc"));
+		throw new LoadException(app.getResources().getString("wrongTableHeaderExc"));
 	}
-	
-		/**
+
+	/**
 	 * @return the tableType
 	 */
 	public TableType getTableType() {
@@ -126,14 +131,14 @@ public class CharacteristicTable {
 	public ArrayList<Double> getArguments() {
 		return arguments;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param constValue - constant value that determine function table
 	 * @param arg - function argument
 	 * @return the corresponding value of the function
 	 */
-	public double getFuncValue(double constValue, double arg){
+	public double getFuncValue(double constValue, double arg) {
 		return fTables.get(constValue).get(arg);
 	}
 }
