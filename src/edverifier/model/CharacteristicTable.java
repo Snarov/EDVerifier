@@ -91,6 +91,21 @@ public class CharacteristicTable {
 	}
 
 	/**
+	 * Constructs characteristic empty table from scratch
+	 *
+	 * @param type of the table
+	 */
+	public CharacteristicTable(TableType type) {
+		if (type == null) {
+			tableType = null;
+			return;
+		}
+		
+		tableType = type;
+
+	}
+
+	/**
 	 * Determine type of the table
 	 *
 	 * @param header - header of the table, the type of which it is necessary to determine

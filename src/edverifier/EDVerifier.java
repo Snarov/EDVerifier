@@ -9,12 +9,11 @@ package edverifier;
 import edverifier.model.CharacteristicTable;
 import edverifier.model.CharacteristicTableManager;
 import edverifier.model.IO.Reader;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
@@ -35,7 +34,9 @@ public class EDVerifier extends Application {
 	private final static String DEF_LOCATION = "RU";
 	private static final String LOCALE_PATH = "bundles/locale";
 
-	public static EDVerifier app;		//genius thing
+	public static EDVerifier app;		//genius thing. It's my own invention so it is a pretty shitty... may be
+
+	private Stage appStage;
 
 	/**
 	 * {@value map establishing the correspondence between file extension and reader class for it}
@@ -52,6 +53,7 @@ public class EDVerifier extends Application {
 	@Override
 	public void start(Stage stage) {
 		app = this;
+		appStage = stage;
 
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("view/EDVerifier.fxml"), resources);
@@ -62,22 +64,21 @@ public class EDVerifier extends Application {
 			System.exit(1);
 		}
 
-		try {
-			loadTables("/home/kiskin/Documents/Untitled 1.xls");
-		} catch (LoadException ex) {
-		} catch (IOException ex) {
-		}
 	}
 
 	/**
 	 * loadTable method uses {@link #readersMap} for determine a class used for load. Then this class is loaded by dint of
 	 * reflection	mechanism. Method read file until it gets one input characteristic table and on output characteristic table.
 	 *
-	 * @param filepath - path to file for load
+	 * @param file file for load
 	 * @throws javafx.fxml.LoadException
 	 */
-	public void loadTables(String filepath) throws LoadException, IOException {
+	public void loadTables(File file) throws LoadException, IOException {
+		if (file == null) {
+			return;
+		}
 		//get the file extension
+		String filepath = file.getPath();
 		String fileExtension = filepath.substring(filepath.lastIndexOf('.'));
 
 		if (!readersMap.containsKey(fileExtension)) {
@@ -99,15 +100,17 @@ public class EDVerifier extends Application {
 			reader.open(filepath);
 			String[][] rawTable = reader.readNextTable();
 			CharacteristicTable characteristicTable = new CharacteristicTable(rawTable);
-			
+
 			app.getTableManager().loadTable(characteristicTable);
-			
+
 			CharacteristicTable.TableType firstTableType = characteristicTable.getTableType();
-			do {	// searching for table with different type
-				rawTable = reader.readNextTable();
-				characteristicTable = new CharacteristicTable(rawTable);
-			} while (characteristicTable.getTableType() == firstTableType);
-			
+			if (firstTableType != null) {
+				do {	// searching for table with different type
+					rawTable = reader.readNextTable();
+					characteristicTable = new CharacteristicTable(rawTable);
+				} while (characteristicTable.getTableType() == firstTableType);
+			}
+
 			app.getTableManager().loadTable(characteristicTable);
 		}
 
@@ -125,6 +128,13 @@ public class EDVerifier extends Application {
 	 */
 	public CharacteristicTableManager getTableManager() {
 		return tableManager;
+	}
+
+	/**
+	 * @return the appStage
+	 */
+	public Stage getAppStage() {
+		return appStage;
 	}
 
 }

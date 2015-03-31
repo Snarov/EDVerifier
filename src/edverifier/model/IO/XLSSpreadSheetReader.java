@@ -111,30 +111,34 @@ public class XLSSpreadSheetReader extends SpreadSheetReader {
 			do {
 				if (curSheeetNum + 1 < workbook.getNumberOfSheets()) {
 					sheet = workbook.getSheetAt(++curSheeetNum);
-					if (sheet != null) {
-						curRowNum = sheet.getFirstRowNum();
-						
-						if (sheet.getRow(curRowNum) != null) {
-							curColNum = sheet.getRow(curRowNum).getFirstCellNum();
-						} else {
-							curColNum = 0;
-							return false;
-						}
+
+					curRowNum = sheet.getFirstRowNum();
+
+					if (sheet.getRow(curRowNum) != null) {	//find coordinates of first data entry in new sheet
+						curColNum = sheet.getRow(curRowNum).getFirstCellNum();
+						return true;
 					} else {
+						curColNum = 0;	//if sheet is empty
 						return false;
 					}
+				} else {
+					return false;	//if left no more sheets
 				}
-				return true;
+
 			} while (curRowNum >= sheet.getLastRowNum());
 		} else {
 //			API behaves unclear: for empty row result may be either null-reference or HSSFRow object whose method getFirstCellNum()
 //			returns -1
 			while ((sheet.getRow(++curRowNum) == null
 					|| sheet.getRow(curRowNum) != null && sheet.getRow(curRowNum).getFirstCellNum() == -1)
-					&& curRowNum < sheet.getLastRowNum());
-			curColNum = sheet.getRow(curRowNum).getFirstCellNum();
+					&& curRowNum < sheet.getLastRowNum());	// scroll down until non-empty row founded or riched last row
+			if (sheet.getRow(curRowNum) != null) {
+				curColNum = sheet.getRow(curRowNum).getFirstCellNum();
+			} else {
+				curColNum = 0;
+			}
+			return true;
 		}
-		return true;
 	}
 
 //	calculate quantity of rows in table whose top left corner lies on curRowNum, curColNum

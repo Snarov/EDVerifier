@@ -23,12 +23,12 @@
 		<!--Resource names for menu items text is given in form "menuName-menuItemName"-->
 		<menus>
 			<Menu text="%file-menu">
-				<MenuItem text="%file-new"/>
-				<MenuItem text="%file-open"/>
-				<MenuItem text="%file-saveAs" disable="true"/>
-				<MenuItem text="%file-save" disable="true"/>
+				<MenuItem text="%file-new" onAction="#handleFileNew"/>
+				<MenuItem text="%file-open" onAction="#handleFileOpen"/>
+				<MenuItem fx:id = "fileSaveAsItem" text="%file-saveAs" disable="true"/>
+				<MenuItem fx:id = "fileSaveItem" text="%file-save" disable="true"/>
 				<SeparatorMenuItem  />
-				<MenuItem text="%file-exit"/>
+				<MenuItem text="%file-exit" onAction="#handleFileExit"/>
 			</Menu>
 			<Menu text="%edit-menu">
 				<items>
