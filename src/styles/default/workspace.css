@@ -3,9 +3,10 @@
 * Developed by Kiskin
 *
 *//* 
-    Created on : Mar 25, 2015, 1:31:40 AM
+    Created on : Apr 8, 2015, 1:18:46 AM
     Author     : Kiskin
 */
 
-@import url(toolbar.css);
-@import url(workspace.css);
+#dataPanel .label{
+	-fx-font-size: 16pt;
+}

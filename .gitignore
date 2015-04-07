@@ -1,0 +1,11 @@
+#netbeans dirs
+nbproject
+dist
+manifest.mf
+#
+#all invisible files
+.*
+#except .gitignore
+!.gitignore
+#
+/build/

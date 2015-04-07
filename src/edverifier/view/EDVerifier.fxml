@@ -17,7 +17,7 @@
 <!-- GUI uses recource bundles for localization purposes. Locale-specific values stored in "bundles/" directory and named like "locale_ru_RU.properties" or 
 "locale_en.properties" for example.-->
 
-<VBox id="vbox" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edverifier.controller.EDVerifierController">
+<VBox id="root" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edverifier.controller.EDVerifierController">
 	<!--Usual menubar which providing usual operations for user-->
 	<MenuBar>
 		<!--Resource names for menu items text is given in form "menuName-menuItemName"-->
@@ -80,10 +80,11 @@
 		<RadioButton fx:id="tbBtnCommonEmitter" toggleGroup="$tbBtnSelectCircuitGroup"/>
 		<RadioButton fx:id="tbBtnCommonCollector" toggleGroup="$tbBtnSelectCircuitGroup"/>
 		<RadioButton fx:id="tbBtnCommonBase" toggleGroup="$tbBtnSelectCircuitGroup"/>
-		
 	</ToolBar> 
 	
+	<fx:include source="Workspace.fxml"/>
+	
 	<stylesheets>
-		<URL value="@../styles/default/default.css"/>
+		<URL value="@../../styles/default/default.css"/>
 	</stylesheets>
 </VBox>

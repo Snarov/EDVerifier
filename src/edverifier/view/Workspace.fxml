@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"  id="workspace"  fx:controller="edverifier.controller.WorkspaceController">
+	<top>
+		<fx:define>
+			<Double fx:id="comboBoxConstantWidth" fx:value="100"/>
+			<Double fx:id="paneHgap" fx:value="40"/>
+			<Double fx:id="hboxSpacing" fx:value="10"/>
+		</fx:define>
+		
+		<TilePane id="dataPanel" alignment="CENTER" hgap="$paneHgap">
+			<HBox alignment="CENTER_RIGHT" spacing="$hboxSpacing" >
+				<Label text="%dp-I"/>
+				<ComboBox fx:id="comboBoxI" editable="false" minWidth="$comboBoxConstantWidth"  prefWidth="$comboBoxConstantWidth" maxWidth="$comboBoxConstantWidth"/>
+			</HBox>
+			<HBox alignment="CENTER_RIGHT" spacing="$hboxSpacing">
+				<Label text="%dp-U"/>
+				<ComboBox fx:id="comboBoxU" editable="false" minWidth="$comboBoxConstantWidth"  prefWidth="$comboBoxConstantWidth" maxWidth="$comboBoxConstantWidth"/>
+			</HBox>
+		</TilePane>
+	</top>
+	
+	<left>
+		<VBox id="ParametersBox">
+		
+		</VBox>
+	</left>		
+	
+	<center>
+		<VBox id="PlotBox">
+			<!--TODO: add place for plot-->
+			<HBox id="PlotPanel">
+			
+			</HBox>
+		</VBox>
+	</center>
+	
+</BorderPane>
