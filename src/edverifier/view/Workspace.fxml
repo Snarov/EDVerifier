@@ -5,30 +5,72 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1"  id="workspace"  fx:controller="edverifier.controller.WorkspaceController">
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"  id="workspace"  fx:controller="edverifier.controller.WorkspaceController" >
+	<fx:define>
+		<Double fx:id="SCALING_SIZE" fx:value="1000000"/>
+	</fx:define>
 	<top>
 		<fx:define>
-			<Double fx:id="comboBoxConstantWidth" fx:value="100"/>
-			<Double fx:id="paneHgap" fx:value="40"/>
-			<Double fx:id="hboxSpacing" fx:value="10"/>
+			<Double fx:id="COMBOBOX_CONSTANT_WIDTH" fx:value="100"/>
+			<Double fx:id="PANE_HGAP" fx:value="40"/>
+			<Double fx:id="HBOX_SPACING" fx:value="10"/>
+			
+			<Insets fx:id="dataPanelInsets" top="20" bottom="10"/>  
 		</fx:define>
 		
-		<TilePane id="dataPanel" alignment="CENTER" hgap="$paneHgap">
-			<HBox alignment="CENTER_RIGHT" spacing="$hboxSpacing" >
+		<TilePane id="dataPanel" alignment="CENTER" hgap="$PANE_HGAP">
+			<HBox alignment="CENTER_RIGHT" spacing="$HBOX_SPACING">
+				<TilePane.margin>
+					<fx:reference source="dataPanelInsets"/>
+				</TilePane.margin>
 				<Label text="%dp-I"/>
-				<ComboBox fx:id="comboBoxI" editable="false" minWidth="$comboBoxConstantWidth"  prefWidth="$comboBoxConstantWidth" maxWidth="$comboBoxConstantWidth"/>
+				<ComboBox fx:id="comboBoxI" editable="false" minWidth="$COMBOBOX_CONSTANT_WIDTH"  prefWidth="$COMBOBOX_CONSTANT_WIDTH" maxWidth="$COMBOBOX_CONSTANT_WIDTH"/>
 			</HBox>
-			<HBox alignment="CENTER_RIGHT" spacing="$hboxSpacing">
+			<HBox alignment="CENTER_RIGHT" spacing="$HBOX_SPACING">
+				<TilePane.margin>
+					<fx:reference source="dataPanelInsets"/>
+				</TilePane.margin>
 				<Label text="%dp-U"/>
-				<ComboBox fx:id="comboBoxU" editable="false" minWidth="$comboBoxConstantWidth"  prefWidth="$comboBoxConstantWidth" maxWidth="$comboBoxConstantWidth"/>
+				<ComboBox fx:id="comboBoxU" editable="false" minWidth="$COMBOBOX_CONSTANT_WIDTH"  prefWidth="$COMBOBOX_CONSTANT_WIDTH" maxWidth="$COMBOBOX_CONSTANT_WIDTH"/>
 			</HBox>
 		</TilePane>
 	</top>
 	
 	<left>
-		<VBox id="ParametersBox">
-		
+		<fx:define>
+			<Double fx:id="HPARAM_SPACING" fx:value="30"/>
+			<Double fx:id="HPARAM_VGAP" fx:value="15"/>
+			<Double fx:id="HPARAM_HGAP"  fx:value="15"/>
+		</fx:define>
+		<VBox id="parametersBox" alignment="TOP_CENTER" spacing="$HPARAM_SPACING" >
+			<Label id="hParamHeader" text="%h-param-header"/>
+			<Separator orientation="HORIZONTAL"/>
+			<GridPane  hgap="$HPARAM_HGAP" gridLinesVisible="false" prefHeight="$SCALING_SIZE" >
+				<columnConstraints>
+					<ColumnConstraints percentWidth="50" halignment="RIGHT" />
+					<ColumnConstraints percentWidth="50" halignment="LEFT"/>
+				</columnConstraints>
+				<rowConstraints>
+					<RowConstraints percentHeight="14"/> 
+					<RowConstraints percentHeight="14"/> 
+					<RowConstraints percentHeight="14"/> 
+					<RowConstraints percentHeight="14"/> 
+					<RowConstraints percentHeight="14"/> 
+					<RowConstraints percentHeight="14"/> 
+					<RowConstraints percentHeight="14"/> 
+				</rowConstraints>
+				<Label id="hParam" text="h11:" GridPane.columnIndex="0"  GridPane.rowIndex="0"  />
+				<Label fx:id="h11Value"  GridPane.columnIndex="1"  GridPane.rowIndex="0" />
+				<Label id="hParam" text="h12:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+				<Label fx:id="h12Value"  GridPane.columnIndex="1"  GridPane.rowIndex="2" />
+				<Label id="hParam" text="h21:" GridPane.columnIndex="0"  GridPane.rowIndex="4" />
+				<Label fx:id="h21Value"  GridPane.columnIndex="1"  GridPane.rowIndex="4" />
+				<Label id="hParam" text="h22:" GridPane.columnIndex="0"  GridPane.rowIndex="6" />
+				<Label fx:id="h22Value"  GridPane.columnIndex="1"  GridPane.rowIndex="6" />
+			</GridPane>
 		</VBox>
 	</left>		
 	

@@ -1,0 +1,30 @@
+/*
+* BSUIR, Department of Electronics. 2015
+* Developed by Kiskin
+*
+*//* 
+    Created on : Apr 9, 2015, 2:01:29 AM
+    Author     : kiskin
+*/
+
+#root {
+	-fx-border-color: #ff0000;
+    -fx-border-width: 2px;
+	
+}
+
+#workspace {
+	-fx-border-color: #00ff00;
+    -fx-border-width: 2px;
+	
+}
+
+#parametersBox{
+	-fx-border-color: #0000ff;
+    -fx-border-width: 2px;
+}
+
+#dataPanel{
+	-fx-border-color: #00ffff;
+    -fx-border-width: 2px;
+}

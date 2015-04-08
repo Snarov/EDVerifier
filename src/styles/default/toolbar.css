@@ -13,8 +13,3 @@
 	/*-fx-graphic: url("icons/Icon.jpg");*/
 }
 
-#workspace {
-	-fx-border-color: #ff0000;
-    -fx-border-width: 2px;
-	
-}

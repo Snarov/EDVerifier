@@ -10,3 +10,7 @@
 #dataPanel .label{
 	-fx-font-size: 16pt;
 }
+
+#hParam{
+	-fx-font-size: 13pt;
+}

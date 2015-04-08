@@ -17,7 +17,7 @@
 <!-- GUI uses recource bundles for localization purposes. Locale-specific values stored in "bundles/" directory and named like "locale_ru_RU.properties" or 
 "locale_en.properties" for example.-->
 
-<VBox id="root" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edverifier.controller.EDVerifierController">
+<VBox fx:id="root"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="edverifier.controller.EDVerifierController" >
 	<!--Usual menubar which providing usual operations for user-->
 	<MenuBar>
 		<!--Resource names for menu items text is given in form "menuName-menuItemName"-->
