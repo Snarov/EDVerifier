@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-
+<?import javafx.scene.chart.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"  id="workspace"  fx:controller="edverifier.controller.WorkspaceController" >
 	<fx:define>
@@ -27,14 +27,16 @@
 					<fx:reference source="dataPanelInsets"/>
 				</TilePane.margin>
 				<Label text="%dp-I"/>
-				<ComboBox fx:id="comboBoxI" editable="false" minWidth="$COMBOBOX_CONSTANT_WIDTH"  prefWidth="$COMBOBOX_CONSTANT_WIDTH" maxWidth="$COMBOBOX_CONSTANT_WIDTH"/>
+				<ComboBox fx:id="comboBoxI" editable="false" minWidth="$COMBOBOX_CONSTANT_WIDTH"  prefWidth="$COMBOBOX_CONSTANT_WIDTH"
+						  maxWidth="$COMBOBOX_CONSTANT_WIDTH"/>
 			</HBox>
 			<HBox alignment="CENTER_RIGHT" spacing="$HBOX_SPACING">
 				<TilePane.margin>
 					<fx:reference source="dataPanelInsets"/>
 				</TilePane.margin>
 				<Label text="%dp-U"/>
-				<ComboBox fx:id="comboBoxU" editable="false" minWidth="$COMBOBOX_CONSTANT_WIDTH"  prefWidth="$COMBOBOX_CONSTANT_WIDTH" maxWidth="$COMBOBOX_CONSTANT_WIDTH"/>
+				<ComboBox fx:id="comboBoxU" editable="false" minWidth="$COMBOBOX_CONSTANT_WIDTH"  prefWidth="$COMBOBOX_CONSTANT_WIDTH"
+						  maxWidth="$COMBOBOX_CONSTANT_WIDTH"/>
 			</HBox>
 		</TilePane>
 	</top>
@@ -47,7 +49,7 @@
 		</fx:define>
 		<VBox id="parametersBox" alignment="TOP_CENTER" spacing="$HPARAM_SPACING" >
 			<Label id="hParamHeader" text="%h-param-header"/>
-			<Separator orientation="HORIZONTAL"/>
+			<Separator id="hParamHeaderSeparator" orientation="HORIZONTAL"/>
 			<GridPane  hgap="$HPARAM_HGAP" gridLinesVisible="false" prefHeight="$SCALING_SIZE" >
 				<columnConstraints>
 					<ColumnConstraints percentWidth="50" halignment="RIGHT" />
@@ -75,11 +77,50 @@
 	</left>		
 	
 	<center>
-		<VBox id="PlotBox">
-			<!--TODO: add place for plot-->
+		<fx:define>
+			<Double fx:id="CONTROL_PANE_HGAP" fx:value="60"/>
+		</fx:define>
+		<VBox id="PlotPane">
+		
 			<HBox id="PlotPanel">
 			
+				<LineChart fx:id="inCVC" prefHeight="$SCALING_SIZE" prefWidth="$SCALING_SIZE" >
+					<xAxis>
+						<NumberAxis label="%in-current" />
+					</xAxis>
+					<yAxis>
+						<NumberAxis label="%in-voltage"/>
+					</yAxis>
+				</LineChart>
+				<LineChart fx:id="outCVC" prefHeight="$SCALING_SIZE" prefWidth="$SCALING_SIZE">
+					<xAxis>
+						<NumberAxis label="%out-voltage"/>
+					</xAxis>
+					<yAxis>
+						<NumberAxis label="%out-current"/>
+					</yAxis>
+				</LineChart>
 			</HBox>
+			<!--excess element-->
+<!--			<TilePane id="plotControlPane" alignment="CENTER" hgap="$CONTROL_PANE_HGAP" >
+				<fx:define>
+					<Double fx:id="PLOT_CONTROL_HBOX_SPACING" fx:value="50"/>
+					<Insets fx:id="plotControllInsets" top="20"/>  
+				</fx:define>
+				
+				<Label text="%plot-control-show" TilePane.margin="$plotControllInsets" />
+				<HBox alignment="BOTTOM_CENTER" spacing="$PLOT_CONTROL_HBOX_SPACING" TilePane.margin="$plotControllInsets">
+					<HBox>
+						<CheckBox fx:id="plotControlICB" selected="true" />
+						<Label text="%input"/>
+					</HBox>
+					<Separator orientation="VERTICAL"/>
+					<HBox>
+						<CheckBox fx:id="plotControlOCB" selected="true" />
+						<Label text="%output"/>
+					</HBox>
+				</HBox> 
+			</TilePane>-->
 		</VBox>
 	</center>
 	

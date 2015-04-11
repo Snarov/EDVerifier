@@ -9,11 +9,15 @@ import static edverifier.EDVerifier.app;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Pair;
@@ -26,9 +30,24 @@ import javafx.util.Pair;
 public class EDVerifierController {
 
 	@FXML
+	private WorkspaceController workspaceController;
+
+	@FXML
 	private MenuItem fileSaveAsItem;
 	@FXML
 	private MenuItem fileSaveItem;
+	@FXML
+	private Button tbBtnSave;
+	@FXML
+	private Button tbBtnSaveAs;
+	@FXML
+	private CheckMenuItem menuICMI;
+	@FXML
+	private CheckMenuItem menuOCMI;
+	@FXML
+	private ToggleButton tbBtnShowInput;
+	@FXML
+	private ToggleButton tbBtnShowOutput;
 
 	private boolean tableLoaded = false;
 
@@ -70,6 +89,26 @@ public class EDVerifierController {
 
 	}
 
+	@FXML
+	private void initialize() {
+		//binds together UI controls that activate/deactivate displaying of plots
+		Bindings.bindBidirectional(tbBtnShowInput.selectedProperty(), menuICMI.selectedProperty());
+		Bindings.bindBidirectional(tbBtnShowOutput.selectedProperty(), menuOCMI.selectedProperty());
+
+		//		on change: property of corresponding line chart will be changed
+		menuICMI.selectedProperty().addListener((ObservableValue<? extends Boolean> observable,
+				Boolean oldValue,
+				Boolean newValue) -> {
+					workspaceController.cnangeChartVisibility(workspaceController.inCVC, newValue);
+				});
+
+		menuOCMI.selectedProperty().addListener((ObservableValue<? extends Boolean> observable,
+				Boolean oldValue,
+				Boolean newValue) -> {
+					workspaceController.cnangeChartVisibility(workspaceController.outCVC, newValue);
+				});
+	}
+
 	/**
 	 * this handler call method clean() from table manager field in model to clean up fields that contains loaded tables
 	 *
@@ -85,19 +124,22 @@ public class EDVerifierController {
 
 	/**
 	 * this handler terminate the application with saving its state
+	 *
 	 * @param event event object
 	 */
 	@FXML
-	private void handleFileExit(ActionEvent event){
+	private void handleFileExit(ActionEvent event) {
 		//TODO "save  app state"
 		System.exit(0);
 	}
-	
+
 	/**
 	 * set property "disable" of save items in menu "file" in "false"
 	 */
 	private void activateSaveItems() {
 		fileSaveAsItem.setDisable(false);
 		fileSaveItem.setDisable(false);
+		tbBtnSave.setDisable(false);
+		tbBtnSaveAs.setDisable(false);
 	}
 }

@@ -17,7 +17,7 @@
 <!-- GUI uses recource bundles for localization purposes. Locale-specific values stored in "bundles/" directory and named like "locale_ru_RU.properties" or 
 "locale_en.properties" for example.-->
 
-<VBox fx:id="root"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="edverifier.controller.EDVerifierController" >
+<VBox fx:id="root" prefHeight="500" prefWidth="1000"   xmlns:fx="http://javafx.com/fxml/1" fx:controller="edverifier.controller.EDVerifierController" >
 	<!--Usual menubar which providing usual operations for user-->
 	<MenuBar>
 		<!--Resource names for menu items text is given in form "menuName-menuItemName"-->
@@ -39,12 +39,12 @@
 				<MenuItem text="%view-plotSettings"/>
 				<MenuItem text="%view-valuesAccuracy"/>
 				<SeparatorMenuItem  />
-				<CheckMenuItem text="%view-showInput" selected="true"/>
-				<CheckMenuItem text="%view-showOutput" selected="true"/>
+				<CheckMenuItem fx:id="menuICMI" text="%view-showInput" selected="true" />
+				<CheckMenuItem fx:id="menuOCMI" text="%view-showOutput" selected="true"/>
 				<SeparatorMenuItem  />
 				<MenuItem text="%view-theme"/>
 			</Menu>
-			<Menu text="%tools-menu">
+<!--			<Menu text="%tools-menu">
 				<Menu text="%tools-selectCircuitMenu">
 					<fx:define>
 						<ToggleGroup fx:id="selectCircuitGroup"/>
@@ -53,7 +53,7 @@
 					<RadioMenuItem text="%tools-selectCircuitMenu-commonCollector" toggleGroup="$selectCircuitGroup"/>
 					<RadioMenuItem text="%tools-selectCircuitMenu-commonBase" toggleGroup="$selectCircuitGroup"/>
 				</Menu>
-			</Menu>
+			</Menu>-->
 			<Menu text="%language-menu">
 				
 			</Menu>
@@ -64,25 +64,25 @@
 	</MenuBar>
 	<!--Toolbar buttons names is given in form "tbBtnButtonName"-->
 	<ToolBar orientation="HORIZONTAL">
-		<Button fx:id="tbBtnNew"/>
-		<Button fx:id="tbBtnOpen"/>
-		<Button fx:id="tbBtnSaveAs"/>
-		<Button fx:id="tbBtnSave"/>
+		<Button fx:id="tbBtnNew" onAction="#handleFileNew"/>
+		<Button fx:id="tbBtnOpen" onAction="#handleFileOpen"/>
+		<Button fx:id="tbBtnSave" disable="true"/>
+		<Button fx:id="tbBtnSaveAs" disable="true"/>
 		<Separator/>
 		<Button fx:id="tbBtnEditTable"/>
 		<Separator/>
 		<ToggleButton fx:id="tbBtnShowInput"/>
 		<ToggleButton fx:id="tbBtnShowOutput"/>
 		<Separator/>
-		<fx:define>
+<!--		<fx:define>
 			<ToggleGroup fx:id="tbBtnSelectCircuitGroup"/>
-		</fx:define>
-		<RadioButton fx:id="tbBtnCommonEmitter" toggleGroup="$tbBtnSelectCircuitGroup"/>
+		</fx:define>-->
+<!--		<RadioButton fx:id="tbBtnCommonEmitter" toggleGroup="$tbBtnSelectCircuitGroup"/>
 		<RadioButton fx:id="tbBtnCommonCollector" toggleGroup="$tbBtnSelectCircuitGroup"/>
-		<RadioButton fx:id="tbBtnCommonBase" toggleGroup="$tbBtnSelectCircuitGroup"/>
+		<RadioButton fx:id="tbBtnCommonBase" toggleGroup="$tbBtnSelectCircuitGroup"/>-->
 	</ToolBar> 
 	
-	<fx:include source="Workspace.fxml"/>
+	<fx:include fx:id="workspace" source="Workspace.fxml"/>
 	
 	<stylesheets>
 		<URL value="@../../styles/default/default.css"/>

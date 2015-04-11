@@ -8,8 +8,33 @@
 */
 
 
+#tbBtnNew{
+	-fx-graphic: url("icons/NewFile.png");
+}
 
 #tbBtnOpen{
-	/*-fx-graphic: url("icons/Icon.jpg");*/
+	-fx-graphic: url("icons/OpenFile.png");
+}
+
+#tbBtnSaveAs{
+	-fx-graphic: url("icons/SaveAs.png");
+}
+
+#tbBtnSave{
+	-fx-graphic: url("icons/Save.png");
+}
+
+#tbBtnEditTable{
+	-fx-graphic: url("icons/Edit.png");
+	
+}
+
+#tbBtnShowInput{
+	-fx-graphic: url("icons/InChart.png");
+}
+
+#tbBtnShowOutput{
+	-fx-graphic: url("icons/OutChart.png");
+
 }
 

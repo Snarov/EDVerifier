@@ -14,3 +14,24 @@
 #hParam{
 	-fx-font-size: 13pt;
 }
+
+#dataPanel{
+	-fx-background-color: #d0d0d0;
+	-fx-border-color: darkgrey;
+	-fx-border-width: 3 0 3 0;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+#parametersBox{
+	-fx-background-color: #d0d0d0;
+	-fx-border-color: darkgrey;
+	-fx-border-width: 0 3 0 0;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+#hParamHeaderSeparator{
+	-fx-background-color: #888888;
+
+	-fx-border-width: 1;
+	-fx-border-style: solid;
+}
