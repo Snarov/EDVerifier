@@ -5,12 +5,8 @@
  */
 package edverifier.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.CheckBox;
 
 /**
  * FXML Controller class

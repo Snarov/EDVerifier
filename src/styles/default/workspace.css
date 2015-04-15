@@ -35,3 +35,10 @@
 	-fx-border-width: 1;
 	-fx-border-style: solid;
 }
+
+#hParamHeader{
+	-fx-padding: 15 0 0 0;
+	-fx-font-size: 14pt;
+	-fx-wrap-text: true;
+	-fx-text-alignment: center;
+}

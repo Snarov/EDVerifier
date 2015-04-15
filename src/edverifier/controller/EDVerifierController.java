@@ -74,19 +74,17 @@ public class EDVerifierController {
 			fileChooser.getExtensionFilters().add(new ExtensionFilter(extensionPair.getKey(), extensionPair.getValue()));
 		}
 
-		File selectedFile = fileChooser.showOpenDialog(app.getAppStage());
+		File selectedFile = fileChooser.showOpenDialog(app.getView().getAppStage());
 		try {
-			app.loadTables(selectedFile);
+			app.getModel().loadTables(selectedFile);
+			if (!tableLoaded) {
+				activateSaveItems();
+				tableLoaded = true;
+			}
 		} catch (IOException ex) {
 			Alert errorDialog = new Alert(Alert.AlertType.ERROR, ex.getMessage());
 			errorDialog.showAndWait();
 		}
-
-		if ((app.getTableManager().getiTable() != null || app.getTableManager().getoTable() != null) && !tableLoaded) {
-			activateSaveItems();
-			tableLoaded = true;
-		}
-
 	}
 
 	@FXML
@@ -116,7 +114,7 @@ public class EDVerifierController {
 	 */
 	@FXML
 	private void handleFileNew(ActionEvent event) {
-		app.getTableManager().clean();
+		app.getModel().clean();
 		if (!tableLoaded) {
 			activateSaveItems();
 		}
