@@ -6,8 +6,8 @@
 package edverifier.controller;
 
 import static edverifier.EDVerifier.app;
+import edverifier.model.CalculateException;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
@@ -81,9 +81,24 @@ public class EDVerifierController {
 				activateSaveItems();
 				tableLoaded = true;
 			}
-		} catch (IOException ex) {
-			Alert errorDialog = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+		}catch (CalculateException ex){
+			//TODO add warning dialog
+		} catch (Exception ex) {
+			Alert errorDialog = new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage());
 			errorDialog.showAndWait();
+		}
+	}
+	
+	/**
+	 * this handler call method clean() from table manager field in model to clean up fields that contains loaded tables
+	 *
+	 * @param event event object
+	 */
+	@FXML
+	private void handleFileNew(ActionEvent event) {
+		app.getModel().clean();
+		if (!tableLoaded) {
+			activateSaveItems();
 		}
 	}
 
@@ -107,18 +122,7 @@ public class EDVerifierController {
 				});
 	}
 
-	/**
-	 * this handler call method clean() from table manager field in model to clean up fields that contains loaded tables
-	 *
-	 * @param event event object
-	 */
-	@FXML
-	private void handleFileNew(ActionEvent event) {
-		app.getModel().clean();
-		if (!tableLoaded) {
-			activateSaveItems();
-		}
-	}
+	
 
 	/**
 	 * this handler terminate the application with saving its state

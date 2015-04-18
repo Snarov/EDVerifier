@@ -7,8 +7,6 @@ package edverifier.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import javafx.fxml.LoadException;
-import static edverifier.EDVerifier.app;
 
 /**
  * Class that contains information about measurement performed in the circuit. Characteristic table is the table of values ​​of
@@ -55,9 +53,9 @@ public class CharacteristicTable {
 	 * Constructs characteristic table from raw table
 	 *
 	 * @param rawTable - 2-dimensional array that represents a table read from file
-	 * @throws LoadException if error occurred while constructing
+	 * @throws TableReadException if error occurred while constructing
 	 */
-	public CharacteristicTable(String[][] rawTable) throws LoadException {
+	public CharacteristicTable(String[][] rawTable) throws TableReadException {
 
 		if (rawTable == null) {
 			tableType = null;
@@ -70,7 +68,7 @@ public class CharacteristicTable {
 			if (rawTable[rowNum][0].matches(REAL_DEC_PATTERN)) {
 				arguments.add(Double.valueOf(rawTable[rowNum][0]));
 			} else {
-				throw new LoadException(app.getResources().getString("wrongArgValueExc") + rowNum);
+				throw new TableReadException("wrongArgValueErr", rowNum, 0);
 			}
 		}
 //		construct fTables
@@ -81,7 +79,7 @@ public class CharacteristicTable {
 				if (rawTable[rowNum][colNum].matches(REAL_DEC_PATTERN)) {
 					fTable.put(arguments.get(rowNum - 1), Double.valueOf(rawTable[rowNum][colNum]));
 				} else {
-					throw new LoadException(String.format(app.getResources().getString("wrongFuncValueExc"), rowNum, colNum + 1));
+					throw new TableReadException("wrongFuncValueErr", rowNum, colNum);
 				}
 			}
 
@@ -109,13 +107,13 @@ public class CharacteristicTable {
 	 * Determine type of the table
 	 *
 	 * @param header - header of the table, the type of which it is necessary to determine
-	 * @throws LoadException if the header is incorrect
+	 * @throws TableReadException if the header is incorrect
 	 */
-	private TableType determineType(String[] header) throws LoadException {
+	private TableType determineType(String[] header) throws TableReadException {
 		if (header[0].matches(iPatterns.get("ArgColHead"))) {
 			for (int colNum = 1; colNum < header.length; colNum++) {
 				if (!header[colNum].matches(iPatterns.get("ValColHead"))) {
-					throw new LoadException(app.getResources().getString("wrongTableHeaderExc"));
+					throw new TableReadException("wrongTableHeaderErr");
 				}
 			}
 			return TableType.INPUT;
@@ -124,13 +122,13 @@ public class CharacteristicTable {
 		if (header[0].matches(oPatterns.get("ArgColHead"))) {
 			for (int colNum = 1; colNum < header.length; colNum++) {
 				if (!header[colNum].matches(oPatterns.get("ValColHead"))) {
-					throw new LoadException(app.getResources().getString("wrongTableHeaderExc"));
+					throw new TableReadException("wrongTableHeaderErr");
 				}
 			}
 			return TableType.OUTPUT;
 		}
 
-		throw new LoadException(app.getResources().getString("wrongTableHeaderExc"));
+		throw new TableReadException("wrongTableHeaderErr");
 	}
 
 	/**
@@ -145,6 +143,14 @@ public class CharacteristicTable {
 	 */
 	public ArrayList<Double> getArguments() {
 		return arguments;
+	}
+	
+	/**
+	 * @return constValues
+	 */
+	public ArrayList<Double> getConstValues(){
+		//here keys in fTables hashmap (they are constValues) written in ArrayList<Double> for convenience
+		return new ArrayList<>(fTables.keySet());
 	}
 
 	/**
