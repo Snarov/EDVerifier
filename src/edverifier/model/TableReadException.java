@@ -7,7 +7,7 @@ package edverifier.model;
 
 
 /**
- * Exception occurs when there are errors in the preparation of the table
+ * Exception occurs when there are errors in the preparation of the table. Supports formatted messages
  * @author Kiskin
  */
 public class TableReadException extends LocalizableException{

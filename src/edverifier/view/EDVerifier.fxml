@@ -37,7 +37,15 @@
 			</Menu>
 			<Menu text="%view-menu">
 				<MenuItem text="%view-plotSettings"/>
-				<MenuItem text="%view-valuesAccuracy"/>
+				<Menu text="%view-valuesPrecision">
+					<fx:define>
+						<ToggleGroup fx:id="selectPrecisionGroup"/>
+					</fx:define>
+					<RadioMenuItem fx:id="2digits" text="%view-valuesPrecision-2Digits" toggleGroup="$selectPrecisionGroup" onAction="#handlePrecisionChange" 
+								   selected="true" />
+					<RadioMenuItem fx:id="4digits" text="%view-valuesPrecision-4Digits" toggleGroup="$selectPrecisionGroup" onAction="#handlePrecisionChange"/>
+					<RadioMenuItem fx:id="6digits" text="%view-valuesPrecision-6Digits" toggleGroup="$selectPrecisionGroup" onAction="#handlePrecisionChange"/>
+				</Menu>
 				<SeparatorMenuItem  />
 				<CheckMenuItem fx:id="menuICMI" text="%view-showInput" selected="true" />
 				<CheckMenuItem fx:id="menuOCMI" text="%view-showOutput" selected="true"/>

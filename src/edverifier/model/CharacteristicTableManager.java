@@ -23,7 +23,7 @@ public class CharacteristicTableManager {
 	 * @param newTable table that will be load
 	 */
 	public void loadTable(CharacteristicTable newTable) {
-		if (newTable.getTableType() == null) { //do not load empty table
+		if (newTable.getTableType() == null) { //do not load null table
 			return;
 		}
 

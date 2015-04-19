@@ -54,7 +54,7 @@
 				</VBox.margin>
 			</Label>
 			<Separator id="hParamHeaderSeparator" orientation="HORIZONTAL"/>
-			<GridPane  hgap="$HPARAM_HGAP" gridLinesVisible="false"  VBox.vgrow="ALWAYS">
+			<GridPane  id="hParamGrid" hgap="$HPARAM_HGAP" gridLinesVisible="false"  VBox.vgrow="ALWAYS">
 				<columnConstraints>
 					<ColumnConstraints percentWidth="50" halignment="RIGHT" />
 					<ColumnConstraints percentWidth="50" halignment="LEFT"/>
@@ -69,7 +69,7 @@
 					<RowConstraints percentHeight="14"/> 
 				</rowConstraints>
 				<Label id="hParam" text="h11:" GridPane.columnIndex="0"  GridPane.rowIndex="0"  />
-				<Label fx:id="h11Value"  GridPane.columnIndex="1"  GridPane.rowIndex="0" />
+				<Label fx:id="h11Value"	 GridPane.columnIndex="1"  GridPane.rowIndex="0" />
 				<Label id="hParam" text="h12:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 				<Label fx:id="h12Value"  GridPane.columnIndex="1"  GridPane.rowIndex="2" />
 				<Label id="hParam" text="h21:" GridPane.columnIndex="0"  GridPane.rowIndex="4" />

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import edverifier.EDVerifier;
 import java.util.ArrayList;
+import static edverifier.EDVerifier.app;
 
 /**
  * class that encapsulates objects and provides methods related to the application business-logic layer this is restricted
@@ -18,6 +19,11 @@ import java.util.ArrayList;
  * @author Kiskin
  */
 public class Model {
+	
+	//types of updates (each type is 1 bit in a bitmask)
+	public static final int WORK_POINT_CHANGED = 1;	//other workpoint has been selected
+	public static final int TABLES_UPDATED = 2;		//tables has been modified
+	public static final int WORK_POINTS_CHANGED = 4;	//worpoint set has been modified
 
 	private final CharacteristicTableManager tableManager = new CharacteristicTableManager();
 
@@ -26,7 +32,7 @@ public class Model {
 	private Double h21;
 	private Double h22;
 
-	private WorkPoint workPoint;
+	private final WorkPoint workPoint = new WorkPoint();
 
 	/**
 	 * loadTable method uses {@link EDVerifier#readersMap} for determine a class used for load. Then this class is loaded by dint
@@ -73,13 +79,23 @@ public class Model {
 					rawTable = reader.readNextTable();
 					characteristicTable = new CharacteristicTable(rawTable);
 				} while (characteristicTable.getTableType() == firstTableType);
-			}
 
 			tableManager.loadTable(characteristicTable);
+			}
 		}
 
+		//set default work point
+		CharacteristicTable iTable = tableManager.getiTable();
+		if(iTable != null){
+			workPoint.setVoltage(iTable.getConstValues().get(0));
+		}
+		CharacteristicTable oTable = tableManager.getoTable();
+		if(iTable != null){
+			workPoint.setAmperage(oTable.getConstValues().get(0));
+		}
+		
 		recalculate();
-		informView();
+		informView(WORK_POINTS_CHANGED | TABLES_UPDATED | WORK_POINT_CHANGED);
 	}
 
 	/**
@@ -88,9 +104,9 @@ public class Model {
 	public void clean() {
 		tableManager.clean();
 		h11 = h12 = h21 = h22 = null;
-		workPoint = null;
+		workPoint.clean();
 		
-		informView();
+		informView(WORK_POINTS_CHANGED | TABLES_UPDATED | WORK_POINT_CHANGED);
 	}
 
 	/**
@@ -100,20 +116,22 @@ public class Model {
 	 * @throws CalculateException 
 	 */
 	private void recalculate() throws CalculateException {
+				
 		CharacteristicTable iTable = tableManager.getiTable();
 		CharacteristicTable oTable = tableManager.getoTable();
 
 		if (iTable == null || oTable == null) {
-			throw new CalculateException("warning-table-not-loaded");
+			throw new CalculateException("tableNotLoadedErr");
 		}
 
 		ArrayList<Double> amperages = iTable.getArguments();
 		ArrayList<Double> voltages = oTable.getArguments();
 		ArrayList<Double> constValuesI = oTable.getConstValues();
 		ArrayList<Double> constValuesU = iTable.getConstValues();
-
+		
+		
 		if (amperages.size() <= 1 || voltages.size() <= 1 || constValuesI.size() <= 1 || constValuesU.size() <= 1) {
-			throw new CalculateException("warning-insufficient-info");
+			throw new CalculateException("InsufficientInfoErr");
 		}
 
 		double dU1;	//delta U on input
@@ -129,7 +147,7 @@ public class Model {
 		//h11
 		argNum = amperages.indexOf(workPoint.getAmperage());
 		if (argNum == -1) {
-			throw new CalculateException("warning-invalid-tables-structure");
+			throw new CalculateException("InvalidTableStructureErr");
 		}
 
 		if (argNum == 0) {
@@ -139,16 +157,19 @@ public class Model {
 		} else if (argNum == amperages.size() - 1) {
 			dI1 = amperages.get(argNum) - amperages.get(argNum - 1);
 			dU1 = iTable.getFuncValue(workPoint.getVoltage(), amperages.get(argNum))
-					- iTable.getFuncValue(workPoint.getVoltage(), argNum - 1);
+					- iTable.getFuncValue(workPoint.getVoltage(), amperages.get(argNum - 1));
 		} else {
 			dI1 = amperages.get(argNum + 1) - amperages.get(argNum - 1);
 			dU1 = iTable.getFuncValue(workPoint.getVoltage(), amperages.get(argNum + 1))
-					- iTable.getFuncValue(workPoint.getVoltage(), argNum - 1);
+					- iTable.getFuncValue(workPoint.getVoltage(), amperages.get(argNum - 1));
 		}
 
 		h11 = dU1 / dI1;
 
 		//h12
+		if(!amperages.contains(workPoint.getAmperage())){
+			throw new CalculateException("InvalidTableStructureErr");
+		}
 		constValueNum = constValuesU.indexOf(workPoint.getVoltage());
 		if (constValueNum == 0){
 			++constValueNum;
@@ -162,6 +183,9 @@ public class Model {
 		
 		
 		//h21
+		if(!voltages.contains(workPoint.getVoltage())){
+			throw new CalculateException("InvalidTableStructureErr");
+		}
 		constValueNum = constValuesI.indexOf(workPoint.getAmperage());
 		if (constValueNum == 0){
 			++constValueNum;
@@ -169,12 +193,12 @@ public class Model {
 		dI1 = constValuesI.get(constValueNum) - constValuesI.get(constValueNum - 1);
 		dI2 = oTable.getFuncValue(constValuesI.get(constValueNum), workPoint.getVoltage())
 				- oTable.getFuncValue(constValuesI.get(constValueNum - 1), workPoint.getVoltage());
-		h12 = dI2 / dI1;
+		h21 = dI2 / dI1;
 
 		//h22
 		argNum = voltages.indexOf(workPoint.getVoltage());
 		if (argNum == -1) {
-			throw new CalculateException("invalid-tables-structure");
+			throw new CalculateException("InvalidTableStructureErr");
 		}
 
 		if (argNum == 0) {
@@ -195,9 +219,51 @@ public class Model {
 	}
 
 	/**
-	 * inform view about changes using predefined View method
+	 * informs view about changes using predefined View method
 	 */
-	private void informView() {
-		//TODO: add behaviour
+	private void informView(int updateType) {
+		app.getView().onModelUpdated(this, updateType);
+	}
+
+	/**
+	 * @return the h11
+	 */
+	public Double getH11() {
+		return h11;
+	}
+
+	/**
+	 * @return the h12
+	 */
+	public Double getH12() {
+		return h12;
+	}
+
+	/**
+	 * @return the h21
+	 */
+	public Double getH21() {
+		return h21;
+	}
+
+	/**
+	 * @return the h22
+	 */
+	public Double getH22() {
+		return h22;
+	}
+
+	/**
+	 * @return the workPoint
+	 */
+	public WorkPoint getWorkPoint() {
+		return workPoint;
+	}
+
+	/**
+	 * @return the tableManager
+	 */
+	public CharacteristicTableManager getTableManager() {
+		return tableManager;
 	}
 }

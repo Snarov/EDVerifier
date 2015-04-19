@@ -7,17 +7,25 @@ package edverifier.controller;
 
 import static edverifier.EDVerifier.app;
 import edverifier.model.CalculateException;
+import edverifier.model.TableReadException;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Control;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Pair;
@@ -81,21 +89,24 @@ public class EDVerifierController {
 				activateSaveItems();
 				tableLoaded = true;
 			}
-		}catch (CalculateException ex){
-			//TODO add warning dialog
-		} catch (Exception ex) {
+		} catch (TableReadException | IOException | CalculateException ex) {	//in case of error
 			Alert errorDialog = new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage());
+			String localizedErrorWord = app.getResources().getString("error");
+			errorDialog.setHeaderText(localizedErrorWord);
+			errorDialog.setTitle(localizedErrorWord);
+			errorDialog.getDialogPane().setMinHeight(Control.USE_PREF_SIZE);
 			errorDialog.showAndWait();
 		}
 	}
-	
+
 	/**
 	 * this handler call method clean() from table manager field in model to clean up fields that contains loaded tables
 	 *
 	 * @param event event object
 	 */
 	@FXML
-	private void handleFileNew(ActionEvent event) {
+	private void handleFileNew(ActionEvent event
+	) {
 		app.getModel().clean();
 		if (!tableLoaded) {
 			activateSaveItems();
@@ -122,8 +133,6 @@ public class EDVerifierController {
 				});
 	}
 
-	
-
 	/**
 	 * this handler terminate the application with saving its state
 	 *
@@ -133,6 +142,25 @@ public class EDVerifierController {
 	private void handleFileExit(ActionEvent event) {
 		//TODO "save  app state"
 		System.exit(0);
+	}
+
+	/**
+	 * Common handler for menu items that changes h-params view precision
+	 */
+	@FXML
+	private void handlePrecisionChange(ActionEvent event) {
+		RadioMenuItem sourceMenuItem = (RadioMenuItem) event.getSource();
+		switch (sourceMenuItem.getId()) {
+			case "2digits":
+				app.getView().changeHParamsPrecision(2);
+				break;
+			case "4digits":
+				app.getView().changeHParamsPrecision(4);
+				break;
+			case "6digits":
+				app.getView().changeHParamsPrecision(6);
+				break;
+		}
 	}
 
 	/**
