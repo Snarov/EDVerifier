@@ -75,6 +75,10 @@ public class View {
 
 			amperageBox.getItems().addAll(model.getTableManager().getoTable().getConstValues());
 			voltageBox.getItems().addAll(model.getTableManager().getiTable().getConstValues());
+			
+			//if workpoint has been set not by controller's (which is bound with that view) call
+			amperageBox.setValue(model.getWorkPoint().getAmperage());
+			voltageBox.setValue(model.getWorkPoint().getVoltage());
 		}
 		if ((updateType & Model.WORK_POINT_CHANGED) != 0) {
 			h11ValueCache = model.getH11();
@@ -82,9 +86,7 @@ public class View {
 			h21ValueCache = model.getH21();
 			h22ValueCache = model.getH22();
 			
-			//if workpoint has been set not by controller's (which is bound with that view) call
-			amperageBox.setValue(model.getWorkPoint().getAmperage());
-			voltageBox.setValue(model.getWorkPoint().getVoltage());
+			
 		}
 		//TODO add if statement for TABLES_CHANGED
 		
